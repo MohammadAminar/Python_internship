@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Home Page</title>
+    <title>Teachers</title>
     {% include 'links.html' %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
@@ -10,25 +10,21 @@
 <div class="container my-5">
     <ul class="nav nav-pills" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="pill-tab-0" data-bs-toggle="pill" href="#pill-tabpanel-0" role="tab"
-               aria-controls="pill-tabpanel-0" aria-selected="true">معلم</a>
+            <a class="nav-link active" href="/teachers">معلم</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="pill-tab-1" data-bs-toggle="pill" href="#pill-tabpanel-1" role="tab"
-               aria-controls="pill-tabpanel-1" aria-selected="false">دانش آموز</a>
+            <a class="nav-link" href="/students">دانش آموز</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="pill-tab-2" data-bs-toggle="pill" href="#pill-tabpanel-2" role="tab"
-               aria-controls="pill-tabpanel-2" aria-selected="false">مدیر</a>
+            <a class="nav-link" href="/managers">مدیر</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="pill-tab-3" data-bs-toggle="pill" href="#pill-tabpanel-3" role="tab"
-               aria-controls="pill-tabpanel-2" aria-selected="false">والدین</a>
+            <a class="nav-link" href="/parents">والدین</a>
         </li>
     </ul>
     <hr>
     <div class="tab-content py-3 mt-2">
-        <div class="tab-pane active" id="pill-tabpanel-0" role="tabpanel" aria-labelledby="pill-tab-0">
+        <div class="tab-pane active">
             <div>
                 <div class="card">
                     <div class="card-header d-inline-flex justify-content-between">
@@ -194,196 +190,6 @@
                 </script>
 
             </div>
-        </div>
-        <div class="tab-pane" id="pill-tabpanel-1" role="tabpanel" aria-labelledby="pill-tab-1">
-            <div>
-                <div class="card">
-                    <div class="card-header d-inline-flex justify-content-between">
-                        <p class="d-inline my-2" style="font-size: 18px">لیست دانش آموزان</p>
-                        <a class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#addModalStudent">افزودن
-                            دانش آموز</a>
-                    </div>
-                    <div class="row card-body">
-                        <div class="col-md-12">
-                            <table class="table table-light table-striped text-right">
-                                <thead>
-                                <tr>
-                                    <th>نام</th>
-                                    <th>نام خانوادگی</th>
-                                    <th>کد ملی</th>
-                                    <th>شماره تلفن</th>
-                                    <th>نام کاربری</th>
-                                    <th>رمز عبور</th>
-                                    <th>سطح تحصیلات</th>
-                                    <th>وضعیت شهریه</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for item in students %}
-                                <tr>
-                                    <td>{{ item.First_name }}</td>
-                                    <td>{{ item.Last_name }}</td>
-                                    <td>{{ item.International_code }}</td>
-                                    <td>{{ item.Phone }}</td>
-                                    <td>{{ item.Username }}</td>
-                                    <td>{{ item.Password }}</td>
-                                    <td>{{ item.Education_level }}</td>
-                                    <td>{{ item.Debt_status }}</td>
-                                    <td>
-                                        <a onclick="SetValStudent('{{ item.First_name }}', '{{ item.Last_name }}', '{{ item.International_code }}', '{{ item.Phone }}', '{{ item.Username }}', '{{ item.Password }}', '{{ item.Education_level }}', '{{ item.Debt_status }}', '{{ item.User_Id }}')"
-                                                data-bs-toggle="modal" data-bs-target="#editModalStudent"
-                                                class="btn btn-sm btn-info">
-                                            ویرایش
-                                        </a>
-                                        <a onclick="SetDeleteStudent('/deleteTeacher/{{ item.User_Id }}')"
-                                           data-bs-toggle="modal" data-bs-target="#deleteModalStudent"
-                                           class="btn btn-sm btn-danger">
-                                            حذف
-                                        </a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- The Modal -->
-                <div class="modal" id="deleteModalStudent">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <h4 class="modal-title">حذف معلم</h4>
-                            </div>
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                آیا از حذف این معلم اطمینان دارید؟
-                            </div>
-
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <a type="button" href="" class="btn btn-danger" id="deleteItemStudent">بله حذف کن</a>
-                                <button type="button" class="btn btn-info" data-bs-dismiss="modal">خیر</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="modal" id="editModalStudent">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <h4 class="modal-title">ویرایش دانش آموز</h4>
-                            </div>
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                <form id="formEdit" action="editStudent" method="post">
-                                    {% csrf_token %}
-                                    {% for item in student %}
-                                    <div class="mb-3 mt-3">
-                                        {{ item.label_tag }}
-                                        {{ item }}
-                                        <div class="invalid-feedback">{{ field.errors }}</div>
-                                    </div>
-                                    {% endfor %}
-                                    <button type="submit" class="btn btn-primary">ثبت اطلاعات</button>
-                                </form>
-                            </div>
-
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-info" data-bs-dismiss="modal">بستن فرم</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="modal" id="addModalStudent">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <h4 class="modal-title">افزودن دانش آموز</h4>
-                            </div>
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                <form action="addStudent" id="formEdit" method="post">
-                                    {% csrf_token %}
-                                    {% for item in student %}
-                                    <div class="mb-3 mt-3">
-                                        {{ item.label_tag }}
-                                        {{ item }}
-                                        <div class="invalid-feedback">{{ field.errors }}</div>
-                                    </div>
-                                    {% endfor %}
-                                    <button type="submit" class="btn btn-primary">ثبت اطلاعات</button>
-                                </form>
-                            </div>
-
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-info" data-bs-dismiss="modal">بستن فرم</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <script>
-                    function SetDeleteStudent(value) {
-                        document.getElementById('deleteItemStudent').href = value;
-                    }
-
-                    function SetValStudent(Firstname, Lastname, Internationalcode, Phonne, Usernamee, Passwordd,
-                                    Educationlevel, Debtstatus, UserId) {
-                        document.getElementById('id_FirstName').value = Firstname;
-                        document.getElementById('id_LastName').value = Lastname;
-                        document.getElementById('id_International_Code').value = Internationalcode;
-                        document.getElementById('id_Phone').value = Phonne;
-                        document.getElementById('id_Username').value = Usernamee;
-                        document.getElementById('id_Password').value = Passwordd;
-                        document.getElementById('id_Education_level').value = Educationlevel;
-                        document.getElementById('id_Debt_status').value = Debtstatus;
-                        document.getElementById('id_User_Id').value = UserId;
-                    }
-                </script>
-
-            </div>
-        </div>
-        <div class="tab-pane" id="pill-tabpanel-2" role="tabpanel" aria-labelledby="pill-tab-2">
-            <form action="addManager" method="post">
-                {% csrf_token %}
-                {% for item in manager %}
-                <div class="mb-3">
-                    {{ item.label_tag }}
-                    {{ item }}
-                    <div class="invalid-feedback">{{ field.errors }}</div>
-                </div>
-                {% endfor %}
-                <button type="submit" class="btn btn-primary w-100">ارسال فرم</button>
-            </form>
-        </div>
-        <div class="tab-pane" id="pill-tabpanel-3" role="tabpanel" aria-labelledby="pill-tab-3">
-            <form action="addParent" method="post">
-                {% csrf_token %}
-                {% for item in parent %}
-                <div class="mb-3">
-                    {{ item.label_tag }}
-                    {{ item }}
-                    <div class="invalid-feedback">{{ field.errors }}</div>
-                </div>
-                {% endfor %}
-                <button type="submit" class="btn btn-primary w-100">ارسال فرم</button>
-            </form>
         </div>
     </div>
 </div>

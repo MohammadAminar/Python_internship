@@ -16,14 +16,14 @@ class Teacher(User, models.Model):
     Work_experience = models.BooleanField(default=False)
     Education = models.CharField(max_length=50)
 
-class Student(User):
+class Student(User, models.Model):
     User_Id = models.AutoField(primary_key=True)
     Education_level = models.CharField(max_length=50)
     Debt_status = models.CharField(max_length=50)
 
-class Parent(User):
+class Parent(User, models.Model):
     User_Id = models.AutoField(primary_key=True)
     Number_of_children = models.CharField(max_length=50)
 
-class Manager(User):
+class Manager(User, models.Model):
     User_Id = models.AutoField(primary_key=True)

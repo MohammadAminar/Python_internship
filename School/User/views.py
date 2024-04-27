@@ -3,13 +3,14 @@ from django.shortcuts import render
 from .forms import *
 from .models import *
 
-def index(request):
+
+def teachers(request):
     teacher = TeacherModel()
-    student = StudentModel()
-    manager = ManagerModel()
-    parent = ParentModel()
-    return render(request, 'index.html', {'teacher': teacher, 'student': student,
-                                          'manager': manager, 'parent': parent})
+
+    teachers = Teacher.objects.all()
+
+    return render(request, 'teacher.html', context={'teacher': teacher, 'teachers': teachers})
+
 
 def addTeacher(request):
     message = ''
@@ -28,13 +29,45 @@ def addTeacher(request):
                 Work_experience=teacher.data['Work_experience'],
                 Education=teacher.data['Education']).save()
             message = 'Teacher added'
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/teachers')
         else:
             message = 'Invalid data'
     else:
         teacher = TeacherModel()
 
-    return render(request, 'index.html', {'message': message})
+    return render(request, 'teacher.html')
+
+
+def EditTeacher(request):
+    if request.method == 'POST':
+        teacher = TeacherModel(request.POST)
+        id = teacher.data['User_Id']
+        result = Teacher.objects.filter(User_Id=id).first()
+        result.First_name = teacher.data['FirstName']
+        result.Last_name = teacher.data['LastName']
+        result.Phone = teacher.data['Phone']
+        result.International_code = teacher.data['International_Code']
+        result.Username = teacher.data['Username']
+        result.Password = teacher.data['Password']
+        result.Work_experience = teacher.data['Work_experience']
+        result.Education = teacher.data['Education']
+        result.save()
+        return HttpResponseRedirect('/teachers')
+
+
+def DeleteTeacher(request, id):
+    result = Teacher.objects.filter(User_Id=id).first()
+    result.delete()
+    return HttpResponseRedirect('/teachers')
+
+
+def students(request):
+    student = StudentModel()
+
+    students = Student.objects.all()
+
+    return render(request, 'student.html', context={'student': student, 'students': students})
+
 
 def addStudent(request):
     message = ''
@@ -52,13 +85,45 @@ def addStudent(request):
                 Education_level=student.data['Education_level'],
                 Debt_status=student.data['Debt_status']).save()
             message = 'Student added'
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/students')
         else:
             message = 'Invalid data'
     else:
         student = StudentModel()
 
-    return render(request, 'index.html', {'message': message})
+    return render(request, 'student.html', {'message': message})
+
+
+def EditStudent(request):
+    if request.method == 'POST':
+        student = StudentModel(request.POST)
+        id = student.data['User_Id']
+        result = Student.objects.filter(User_Id=id).first()
+        result.First_name = student.data['FirstName']
+        result.Last_name = student.data['LastName']
+        result.Phone = student.data['Phone']
+        result.International_code = student.data['International_Code']
+        result.Username = student.data['Username']
+        result.Password = student.data['Password']
+        result.Education_level = student.data['Education_level']
+        result.Debt_status = student.data['Debt_status']
+        result.save()
+        return HttpResponseRedirect('/students')
+
+
+def DeleteStudent(request, id):
+    result = Student.objects.filter(User_Id=id).first()
+    result.delete()
+    return HttpResponseRedirect('/students')
+
+
+def managers(request):
+    manager = ManagerModel()
+
+    managers = Manager.objects.all()
+
+    return render(request, 'manager.html', context={'manager': manager, 'managers': managers})
+
 
 def addManager(request):
     message = ''
@@ -74,13 +139,43 @@ def addManager(request):
                 Phone=manager.data['Phone'],
                 International_code=manager.data['International_Code']).save()
             message = 'Manager added'
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/managers')
         else:
             message = 'Invalid data'
     else:
         manager = ManagerModel()
 
-    return render(request, 'index.html', {'message': message})
+    return render(request, 'manager.html', {'message': message})
+
+
+def EditManager(request):
+    if request.method == 'POST':
+        manager = ManagerModel(request.POST)
+        id = manager.data['User_Id']
+        result = Manager.objects.filter(User_Id=id).first()
+        result.First_name = manager.data['FirstName']
+        result.Last_name = manager.data['LastName']
+        result.Phone = manager.data['Phone']
+        result.International_code = manager.data['International_Code']
+        result.Username = manager.data['Username']
+        result.Password = manager.data['Password']
+        result.save()
+        return HttpResponseRedirect('/managers')
+
+
+def deleteManager(request, id):
+    result = Manager.objects.filter(User_Id=id).first()
+    result.delete()
+    return HttpResponseRedirect('/managers')
+
+
+def parents(request):
+    parent = ParentModel()
+
+    parents = Parent.objects.all()
+
+    return render(request, 'parent.html', context={'parent': parent, 'parents': parents})
+
 
 def addParent(request):
     message = ''
@@ -98,10 +193,32 @@ def addParent(request):
                 Number_of_children=parent.data['Number_of_children']
             ).save()
             message = 'Parent added'
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/parents')
         else:
             message = 'Invalid data'
     else:
         parent = ParentModel()
 
-    return render(request, 'index.html', {'message': message})
+    return render(request, 'parent.html', {'message': message})
+
+
+def EditParent(request):
+    if request.method == 'POST':
+        parent = ParentModel(request.POST)
+        id = parent.data['User_Id']
+        result = Parent.objects.filter(User_Id=id).first()
+        result.First_name = parent.data['FirstName']
+        result.Last_name = parent.data['LastName']
+        result.Phone = parent.data['Phone']
+        result.International_code = parent.data['International_Code']
+        result.Username = parent.data['Username']
+        result.Password = parent.data['Password']
+        result.Number_of_children = parent.data['Number_of_children']
+        result.save()
+        return HttpResponseRedirect('/parents')
+
+
+def deleteParent(request, id):
+    result = Parent.objects.filter(User_Id=id).first()
+    result.delete()
+    return HttpResponseRedirect('/parents')

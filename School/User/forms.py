@@ -1,11 +1,12 @@
 from django import forms
+
+
 class TeacherModel(forms.Form):
     def __init__(self, *args, **kwargs):
         super(TeacherModel, self).__init__(*args, **kwargs)
         for item in TeacherModel.visible_fields(self):
             item.field.widget.attrs['class'] = 'form-control'
 
-    User_Id = forms.CharField(widget=forms.HiddenInput, required=True, initial=0, label='')
     FirstName = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'امین'}),
                                 max_length=50,
                                 required=True,
@@ -14,7 +15,7 @@ class TeacherModel(forms.Form):
                                max_length=50,
                                required=True,
                                label='نام خانوادگی')
-    International_Code = forms.CharField(widget=forms.TextInput,
+    International_Code = forms.CharField(widget=forms.NumberInput,
                                          max_length=10,
                                          required=True,
                                          label='کد ملی',
@@ -35,7 +36,7 @@ class TeacherModel(forms.Form):
                                min_length=8,
                                label='رمز عبور',
                                error_messages={'Error': 'رمز عبور کوتاه است'})
-    Code_vezarat_olom = forms.CharField(widget=forms.TextInput,
+    Code_vezarat_olom = forms.CharField(widget=forms.NumberInput,
                                         max_length=10,
                                         required=True,
                                         label='کد وزارت علوم',
@@ -53,6 +54,9 @@ class TeacherModel(forms.Form):
                                 max_length=50,
                                 required=True,
                                 label='تحصیلات')
+    User_Id = forms.CharField(widget=forms.HiddenInput, required=True, initial=0, label='')
+
+
 class StudentModel(forms.Form):
     def __init__(self, *args, **kwargs):
         super(StudentModel, self).__init__(*args, **kwargs)
@@ -103,6 +107,8 @@ class StudentModel(forms.Form):
 
     Debt_status = forms.ChoiceField(choices=DEBT_STATUS_CHOICES,
                                     label='وضعیت بدهی')
+
+
 class ManagerModel(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ManagerModel, self).__init__(*args, **kwargs)
@@ -139,6 +145,8 @@ class ManagerModel(forms.Form):
                                min_length=8,
                                label='رمز عبور',
                                error_messages={'Error': 'رمز عبور کوتاه است'})
+
+
 class ParentModel(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ParentModel, self).__init__(*args, **kwargs)
