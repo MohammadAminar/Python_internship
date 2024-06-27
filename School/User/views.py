@@ -1,7 +1,7 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from .forms import *
-from .models import *
+from .forms import ManagerModel, ParentModel, StudentModel, TeacherModel
+from .models import Manager, Parent, Student, Teacher
 
 
 def teachers(request):
@@ -31,7 +31,7 @@ def addTeacher(request):
             message = 'Teacher added'
             return HttpResponseRedirect('/teachers')
         else:
-            message = 'Invalid data'
+            message = 'Invalid data'  # noqa: F841
     else:
         teacher = TeacherModel()
 
