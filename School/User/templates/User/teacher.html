@@ -1,0 +1,196 @@
+{% extends 'User/base.html' %}
+{% load static %}
+
+{% block page_Title %}Teachers{% endblock %}
+
+{% block nav-pills %}
+<ul class="nav nav-pills" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" href="/teachers">معلم</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/students">دانش آموز</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/managers">مدیر</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/parents">والدین</a>
+    </li>
+</ul>
+{% endblock %}
+
+{% block form_Title %}
+لیست معلمین
+{% endblock %}
+
+{% block add_Button %}
+افزودن معلم جدید
+{% endblock %}
+
+{% block body_Content %}
+<div class="row card-body">
+    <div class="col-md-12">
+        <table class="table table-light table-striped text-right">
+            <thead>
+            <tr>
+                <th>نام</th>
+                <th>نام خانوادگی</th>
+                <th>کد ملی</th>
+                <th>شماره تلفن</th>
+                <th>نام کاربری</th>
+                <th>رمز عبور</th>
+                <th>کد وزارت علوم</th>
+                <th>تجربه کاری</th>
+                <th>تحصیلات</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in teachers %}
+            <tr>
+                <td>{{ item.First_name }}</td>
+                <td>{{ item.Last_name }}</td>
+                <td>{{ item.International_code }}</td>
+                <td>{{ item.Phone }}</td>
+                <td>{{ item.Username }}</td>
+                <td>{{ item.Password }}</td>
+                <td>{{ item.Code_vezarat_olom }}</td>
+                <td>{{ item.Work_experience }}</td>
+                <td>{{ item.Education }}</td>
+                <td>
+                    <a onclick="SetVal('{{ item.First_name }}', '{{ item.Last_name }}', '{{ item.International_code }}', '{{ item.Phone }}', '{{ item.Username }}', '{{ item.Password }}', '{{ item.Code_vezarat_olom }}', '{{ item.Work_experience }}', '{{ item.Education }}', '{{ item.User_Id }}')"
+                            data-bs-toggle="modal" data-bs-target="#editModal"
+                            class="btn btn-sm btn-info">
+                        ویرایش
+                    </a>
+                    <a onclick="SetDelete('/deleteTeacher/{{ item.User_Id }}')"
+                       data-bs-toggle="modal" data-bs-target="#deleteModal"
+                       class="btn btn-sm btn-danger">
+                        حذف
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block deleteModal %}
+<div class="modal" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">حذف معلم</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                آیا از حذف این معلم اطمینان دارید؟
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <a type="button" href="" class="btn btn-danger" id="deleteItem">بله حذف کن</a>
+                <button type="button" class="btn btn-info" data-bs-dismiss="modal">خیر</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block editModal %}
+<div class="modal" id="editModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">ویرایش معلم</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form id="formEdit" action="editTeacher" method="post">
+                    {% csrf_token %}
+                    {% for item in teacher %}
+                    <div class="mb-3 mt-3">
+                        {{ item.label_tag }}
+                        {{ item }}
+                        <div class="invalid-feedback">{{ field.errors }}</div>
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">ثبت اطلاعات</button>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-bs-dismiss="modal">بستن فرم</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block addModal %}
+<div class="modal" id="addModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">افزودن معلم</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="addTeacher" id="formEdit" method="post">
+                    {% csrf_token %}
+                    {% for item in teacher %}
+                    <div class="mb-3 mt-3">
+                        {{ item.label_tag }}
+                        {{ item }}
+                        <div class="invalid-feedback">{{ field.errors }}</div>
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">ثبت اطلاعات</button>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-bs-dismiss="modal">بستن فرم</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function SetDelete(value) {
+        document.getElementById('deleteItem').href = value;
+    }
+
+    function SetVal(First_name, Last_name, International_code, Phone, Username, Password,
+                    Code_vezarat_olom, Work_experience, Education, User_Id) {
+        document.getElementById('id_FirstName').value = First_name;
+        document.getElementById('id_LastName').value = Last_name;
+        document.getElementById('id_International_Code').value = International_code;
+        document.getElementById('id_Phone').value = Phone;
+        document.getElementById('id_Username').value = Username;
+        document.getElementById('id_Password').value = Password;
+        document.getElementById('id_Code_vezarat_olom').value = Code_vezarat_olom;
+        document.getElementById('id_Work_experience').value = Work_experience;
+        document.getElementById('id_Education').value = Education;
+        document.getElementById('id_User_Id').value = User_Id;
+    }
+</script>
+{% endblock %}

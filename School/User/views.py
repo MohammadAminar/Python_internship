@@ -9,7 +9,7 @@ def teachers(request):
 
     teachers = Teacher.objects.all()
 
-    return render(request, 'teacher.html', context={'teacher': teacher, 'teachers': teachers})
+    return render(request, 'User/teacher.html', context={'teacher': teacher, 'teachers': teachers})
 
 
 def addTeacher(request):
@@ -35,7 +35,7 @@ def addTeacher(request):
     else:
         teacher = TeacherModel()
 
-    return render(request, 'teacher.html')
+    return render(request, 'User/teacher.html')
 
 
 def EditTeacher(request):
@@ -66,7 +66,7 @@ def students(request):
 
     students = Student.objects.all()
 
-    return render(request, 'student.html', context={'student': student, 'students': students})
+    return render(request, 'User/student.html', context={'student': student, 'students': students})
 
 
 def addStudent(request):
@@ -91,7 +91,7 @@ def addStudent(request):
     else:
         student = StudentModel()
 
-    return render(request, 'student.html', {'message': message})
+    return render(request, 'User/student.html', {'message': message})
 
 
 def EditStudent(request):
@@ -122,7 +122,7 @@ def managers(request):
 
     managers = Manager.objects.all()
 
-    return render(request, 'manager.html', context={'manager': manager, 'managers': managers})
+    return render(request, 'User/manager.html', context={'manager': manager, 'managers': managers})
 
 
 def addManager(request):
@@ -145,7 +145,7 @@ def addManager(request):
     else:
         manager = ManagerModel()
 
-    return render(request, 'manager.html', {'message': message})
+    return render(request, 'User/manager.html', {'message': message})
 
 
 def EditManager(request):
@@ -174,7 +174,7 @@ def parents(request):
 
     parents = Parent.objects.all()
 
-    return render(request, 'parent.html', context={'parent': parent, 'parents': parents})
+    return render(request, 'User/parent.html', context={'parent': parent, 'parents': parents})
 
 
 def addParent(request):
@@ -199,7 +199,7 @@ def addParent(request):
     else:
         parent = ParentModel()
 
-    return render(request, 'parent.html', {'message': message})
+    return render(request, 'User/parent.html', {'message': message})
 
 
 def EditParent(request):

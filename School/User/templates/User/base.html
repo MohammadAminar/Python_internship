@@ -1,0 +1,38 @@
+{% load static %}
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block page_Title %}{% endblock %}</title>
+    {% include 'User/links.html' %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="container my-5">
+    {% block nav-pills %}{% endblock %}
+    <hr>
+    <div class="tab-content py-3 mt-2">
+        <div class="tab-pane active">
+            <div>
+                <div class="card">
+                    <div class="card-header d-inline-flex justify-content-between">
+                        <p class="d-inline my-2" style="font-size: 18px">{% block form_Title %}{% endblock %}</p>
+                        <a class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#addModal">{% block add_Button %}{% endblock %}</a>
+                    </div>
+                    {% block body_Content %}{% endblock %}
+                </div>
+
+                <!-- The Modal -->
+                {% block deleteModal %}{% endblock %}
+
+                {% block editModal %}{% endblock %}
+
+                {% block addModal %}{% endblock %}
+
+                {% block scripts %}{% endblock %}
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

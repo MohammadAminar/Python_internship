@@ -1,0 +1,190 @@
+{% extends 'User/base.html' %}
+{% load static %}
+
+{% block page_Title %}Parents{% endblock %}
+
+{% block nav-pills %}
+<ul class="nav nav-pills" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link" href="/teachers">معلم</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/students">دانش آموز</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/managers">مدیر</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/parents">والدین</a>
+    </li>
+</ul>
+{% endblock %}
+
+{% block form_Title %}
+لیست والدین
+{% endblock %}
+
+{% block add_Button %}
+افزودن والدین جدید
+{% endblock %}
+
+{% block body_Content %}
+<div class="row card-body">
+    <div class="col-md-12">
+        <table class="table table-light table-striped text-right">
+            <thead>
+            <tr>
+                <th>نام</th>
+                <th>نام خانوادگی</th>
+                <th>کد ملی</th>
+                <th>شماره تلفن</th>
+                <th>نام کاربری</th>
+                <th>رمز عبور</th>
+                <th>تعداد فرزندان در این مدرسه</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in parents %}
+            <tr>
+                <td>{{ item.First_name }}</td>
+                <td>{{ item.Last_name }}</td>
+                <td>{{ item.International_code }}</td>
+                <td>{{ item.Phone }}</td>
+                <td>{{ item.Username }}</td>
+                <td>{{ item.Password }}</td>
+                <td>{{ item.Number_of_children }}</td>
+                <td>
+                    <a onclick="SetVal('{{ item.First_name }}', '{{ item.Last_name }}', '{{ item.International_code }}', '{{ item.Phone }}', '{{ item.Username }}', '{{ item.Password }}', '{{ item.Number_of_children }}', '{{ item.User_Id }}')"
+                            data-bs-toggle="modal" data-bs-target="#editModal"
+                            class="btn btn-sm btn-info">
+                        ویرایش
+                    </a>
+                    <a onclick="SetDelete('/deleteParent/{{ item.User_Id }}')"
+                       data-bs-toggle="modal" data-bs-target="#deleteModal"
+                       class="btn btn-sm btn-danger">
+                        حذف
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block deleteModal %}
+<div class="modal" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">حذف والدین</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                آیا از حذف این والدین اطمینان دارید؟
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <a type="button" href="" class="btn btn-danger" id="deleteItem">بله حذف کن</a>
+                <button type="button" class="btn btn-info" data-bs-dismiss="modal">خیر</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block editModal %}
+<div class="modal" id="editModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">ویرایش والدین</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form id="formEdit" action="editParent" method="post">
+                    {% csrf_token %}
+                    {% for item in parent %}
+                    <div class="mb-3 mt-3">
+                        {{ item.label_tag }}
+                        {{ item }}
+                        <div class="invalid-feedback">{{ field.errors }}</div>
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">ثبت اطلاعات</button>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-bs-dismiss="modal">بستن فرم</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block addModal %}
+<div class="modal" id="addModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">افزودن والدین</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="addParent" id="formEdit" method="post">
+                    {% csrf_token %}
+                    {% for item in parent %}
+                    <div class="mb-3 mt-3">
+                        {{ item.label_tag }}
+                        {{ item }}
+                        <div class="invalid-feedback">{{ field.errors }}</div>
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">ثبت اطلاعات</button>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-bs-dismiss="modal">بستن فرم</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function SetDelete(value) {
+        document.getElementById('deleteItem').href = value;
+    }
+
+    function SetVal(First_name, Last_name, International_code, Phone, Username, Password,
+                    Number_of_children, User_Id) {
+        document.getElementById('id_FirstName').value = First_name;
+        document.getElementById('id_LastName').value = Last_name;
+        document.getElementById('id_International_Code').value = International_code;
+        document.getElementById('id_Phone').value = Phone;
+        document.getElementById('id_Username').value = Username;
+        document.getElementById('id_Password').value = Password;
+        document.getElementById('id_Number_of_children').value = Number_of_children;
+        document.getElementById('id_User_Id').value = User_Id;
+    }
+</script>
+{% endblock %}
