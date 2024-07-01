@@ -1,2 +1,2 @@
 virtualenv
-db.sqlite3
+School/db.sqlite3
