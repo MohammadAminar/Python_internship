@@ -42,13 +42,7 @@ class TeacherModel(forms.Form):
                                         label='کد وزارت علوم',
                                         error_messages={'Error': 'کد وزارت علوم نامعتبر است'})
 
-    CHOICES = [
-        ('True', 'بله'),
-        ('False', 'خیر'),
-    ]
-
     Work_experience = forms.ChoiceField(label='تجربه کاری',
-                                        choices=CHOICES,
                                         required=True)
     Education = forms.CharField(widget=forms.TextInput,
                                 max_length=50,
@@ -99,14 +93,7 @@ class StudentModel(forms.Form):
                                       required=True,
                                       error_messages={'required': 'لطفا سطح تحصیلات را وارد کنید'})
 
-    DEBT_STATUS_CHOICES = [
-        ('SUSPENDED', 'معلق شده'),
-        ('PAID', 'پرداخت شده'),
-        ('UNPAID', 'پرداخت نشده'),
-    ]
-
-    Debt_status = forms.ChoiceField(choices=DEBT_STATUS_CHOICES,
-                                    label='وضعیت بدهی')
+    Debt_status = forms.ChoiceField(label='وضعیت بدهی')
 
 
 class ManagerModel(forms.Form):
