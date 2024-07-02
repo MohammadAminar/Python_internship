@@ -7,6 +7,10 @@ class TeacherModel(forms.Form):
         for item in TeacherModel.visible_fields(self):
             item.field.widget.attrs['class'] = 'form-control'
 
+    CHOICES = [
+        ('True', 'بله'),
+        ('False', 'خیر'),
+    ]
     FirstName = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'امین'}),
                                 max_length=50,
                                 required=True,
@@ -43,7 +47,8 @@ class TeacherModel(forms.Form):
                                         error_messages={'Error': 'کد وزارت علوم نامعتبر است'})
 
     Work_experience = forms.ChoiceField(label='تجربه کاری',
-                                        required=True)
+                                        required=True,
+                                        choices=CHOICES)
     Education = forms.CharField(widget=forms.TextInput,
                                 max_length=50,
                                 required=True,
