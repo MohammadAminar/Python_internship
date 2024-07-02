@@ -15,15 +15,19 @@ class Teacher(User, models.Model):
     Code_vezarat_olom = models.CharField(max_length=50)
     Work_experience = models.BooleanField(default=False)
     Education = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Student(User, models.Model):
     User_Id = models.AutoField(primary_key=True)
     Education_level = models.CharField(max_length=50)
     Debt_status = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Parent(User, models.Model):
     User_Id = models.AutoField(primary_key=True)
     Number_of_children = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Manager(User, models.Model):
     User_Id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
