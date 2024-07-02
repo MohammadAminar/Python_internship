@@ -16,7 +16,7 @@
                 <div class="card">
                     <div class="card-header d-inline-flex justify-content-between">
                         <p class="d-inline my-2" style="font-size: 18px">{% block form_Title %}{% endblock %}</p>
-                        <a class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#addModal">{% block add_Button %}{% endblock %}</a>
+                        {% block add_Button %}{% endblock %}
                     </div>
                     {% block body_Content %}{% endblock %}
                 </div>
