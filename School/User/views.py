@@ -5,14 +5,16 @@ from .models import Manager, Parent, Student, Teacher
 
 
 def teachers(request):
-    teacher = TeacherModel()
-
     teachers = Teacher.objects.all()
-
-    return render(request, 'User/Teacher/teacher.html', context={'teacher': teacher, 'teachers': teachers})
+    return render(request, 'User/Teacher/teacher.html', context={'teachers': teachers})
 
 
 def addTeacher(request):
+    teacher = TeacherModel()
+    return render(request, 'User/Teacher/add_teacher.html', context={'teacher': teacher})
+
+
+def save_Teacher(request):
     message = ''
 
     if request.method == 'POST':
@@ -27,15 +29,14 @@ def addTeacher(request):
                 International_code=teacher.data['International_Code'],
                 Code_vezarat_olom=teacher.data['Code_vezarat_olom'],
                 Work_experience=teacher.data['Work_experience'],
-                Education=teacher.data['Education']).save()
+                Education=teacher.data['Education']
+            ).save()
             message = 'Teacher added'
             return HttpResponseRedirect('/teachers')
         else:
             message = 'Invalid data'  # noqa: F841
     else:
         teacher = TeacherModel()
-
-    return render(request, 'User/Teacher/teacher.html')
 
 
 def EditTeacher(request):
