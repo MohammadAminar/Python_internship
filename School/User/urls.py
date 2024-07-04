@@ -5,8 +5,9 @@ urlpatterns = [
     # Teacher
     path('teachers', views.teachers, name='Teacher'),
     path('addTeacher', views.addTeacher, name='AddTeacher'),
-    path('editTeacher', views.EditTeacher, name='EditTeacher'),
-    path('Save_Teacher', views.save_Teacher, name='EditTeacher'),
+    path('search_Teacher/<int:id>', views.search_Teacher, name='SearchTeacher'),
+    path('save_Teacher', views.save_Teacher, name='SaveTeacher'),
+    path('edit_Teacher', views.edit_Teacher, name='EditTeacher'),
     path('deleteTeacher/<int:id>', views.DeleteTeacher, name='DeleteTeacher'),
 
     # Student

@@ -31,7 +31,7 @@ def save_Teacher(request):
                 Work_experience=teacher.data['Work_experience'],
                 Education=teacher.data['Education']
             ).save()
-            message = 'Teacher added'
+            message = 'Teacher Added'
             return HttpResponseRedirect('/teachers')
         else:
             message = 'Invalid data'  # noqa: F841
@@ -39,21 +39,36 @@ def save_Teacher(request):
         teacher = TeacherModel()
 
 
-def EditTeacher(request):
+def search_Teacher(request, id):
+    result = Teacher.objects.filter(User_Id=id).first()
+    
+    teacher = TeacherModel(initial={'User_Id': id, 'FirstName': result.First_name, 'LastName': result.Last_name,
+                                    'Phone': result.Phone, 'International_Code': result.International_code,
+                                    'Username': result.Username, 'Password': result.Password, 'Code_vezarat_olom': result.Code_vezarat_olom,
+                                    'Work_experience': result.Work_experience, 'Education': result.Education})
+
+    return render(request, 'User/Teacher/edit_teacher.html', context={'teacher': teacher})
+
+
+def edit_Teacher(request):
     if request.method == 'POST':
         teacher = TeacherModel(request.POST)
         id = teacher.data['User_Id']
         result = Teacher.objects.filter(User_Id=id).first()
+
         result.First_name = teacher.data['FirstName']
         result.Last_name = teacher.data['LastName']
         result.Phone = teacher.data['Phone']
         result.International_code = teacher.data['International_Code']
         result.Username = teacher.data['Username']
         result.Password = teacher.data['Password']
+        result.Code_vezarat_olom = teacher.data['Code_vezarat_olom']
         result.Work_experience = teacher.data['Work_experience']
         result.Education = teacher.data['Education']
+
         result.save()
-        return HttpResponseRedirect('/teachers')
+
+    return HttpResponseRedirect('/teachers')
 
 
 def DeleteTeacher(request, id):

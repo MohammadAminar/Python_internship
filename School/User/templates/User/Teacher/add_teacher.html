@@ -15,7 +15,7 @@
                     <p class="d-inline my-2" style="font-size: 18px;">{% block form_Title %}افرودن معلم جدید{% endblock %}</p>
                 </div>
             </div>
-            <form action="Save_Teacher" id="formEdit" method="post">
+            <form action="/save_Teacher" id="formEdit" method="post">
                 {% csrf_token %}
                 {% for item in teacher %}
                 <div class="mb-3 mt-3">
