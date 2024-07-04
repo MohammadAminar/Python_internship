@@ -78,14 +78,16 @@ def DeleteTeacher(request, id):
 
 
 def students(request):
-    student = StudentModel()
-
     students = Student.objects.all()
-
-    return render(request, 'User/Student/student.html', context={'student': student, 'students': students})
+    return render(request, 'User/Student/student.html', context={'students': students})
 
 
 def addStudent(request):
+    student = StudentModel()
+    return render(request, 'User/Student/add_student.html', context={'student': student})
+
+
+def save_Student(request):
     message = ''
 
     if request.method == 'POST':
@@ -99,7 +101,8 @@ def addStudent(request):
                 Phone=student.data['Phone'],
                 International_code=student.data['International_Code'],
                 Education_level=student.data['Education_level'],
-                Debt_status=student.data['Debt_status']).save()
+                Debt_status=student.data['Debt_status']
+            ).save()
             message = 'Student added'
             return HttpResponseRedirect('/students')
         else:
@@ -107,14 +110,25 @@ def addStudent(request):
     else:
         student = StudentModel()
 
-    return render(request, 'User/Student/student.html', {'message': message})
+    return HttpResponseRedirect('/students')
 
 
-def EditStudent(request):
+def search_Student(request, id):
+    result = Student.objects.filter(User_Id=id).first()
+    
+    student = StudentModel(initial={'User_Id': id, 'FirstName': result.First_name, 'LastName': result.Last_name,
+                                    'Phone': result.Phone, 'International_Code': result.International_code,
+                                    'Username': result.Username, 'Password': result.Password, 'Education_level': result.Education_level})
+
+    return render(request, 'User/Student/edit_student.html', context={'student': student})
+
+
+def edit_Student(request):
     if request.method == 'POST':
         student = StudentModel(request.POST)
         id = student.data['User_Id']
         result = Student.objects.filter(User_Id=id).first()
+
         result.First_name = student.data['FirstName']
         result.Last_name = student.data['LastName']
         result.Phone = student.data['Phone']
@@ -123,8 +137,10 @@ def EditStudent(request):
         result.Password = student.data['Password']
         result.Education_level = student.data['Education_level']
         result.Debt_status = student.data['Debt_status']
+
         result.save()
-        return HttpResponseRedirect('/students')
+
+    return HttpResponseRedirect('/students')
 
 
 def DeleteStudent(request, id):
@@ -134,11 +150,8 @@ def DeleteStudent(request, id):
 
 
 def managers(request):
-    manager = ManagerModel()
-
     managers = Manager.objects.all()
-
-    return render(request, 'User/Manager/manager.html', context={'manager': manager, 'managers': managers})
+    return render(request, 'User/Manager/manager.html', context={'managers': managers})
 
 
 def addManager(request):

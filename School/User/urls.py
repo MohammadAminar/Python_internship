@@ -13,7 +13,9 @@ urlpatterns = [
     # Student
     path('students', views.students, name='Students'),
     path('addStudent', views.addStudent, name='AddStudent'),
-    path('editStudent', views.EditStudent, name='EditStudent'),
+    path('search_Student/<int:id>', views.search_Student, name='SearchStudent'),
+    path('save_Student', views.save_Student, name='SaveStudent'),
+    path('edit_Student', views.edit_Student, name='EditStudent'),
     path('deleteStudent/<int:id>', views.DeleteStudent, name='DeleteStudent'),
 
     # Manager

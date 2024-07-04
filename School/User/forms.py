@@ -97,8 +97,14 @@ class StudentModel(forms.Form):
                                       max_length=50,
                                       required=True,
                                       error_messages={'required': 'لطفا سطح تحصیلات را وارد کنید'})
+    
+    DEBT_STATUS_CHOICES = [
+        ('SUSPENDED', 'معلق شده'),
+        ('PAID', 'پرداخت شده'),
+        ('UNPAID', 'پرداخت نشده'),
+    ]
 
-    Debt_status = forms.ChoiceField(label='وضعیت بدهی')
+    Debt_status = forms.ChoiceField(label='وضعیت بدهی', choices=DEBT_STATUS_CHOICES)
 
 
 class ManagerModel(forms.Form):

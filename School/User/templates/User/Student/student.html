@@ -25,7 +25,9 @@
 {% endblock %}
 
 {% block add_Button %}
-افزودن دانش آموز جدید
+<a class="btn btn-primary mx-1" href="/addStudent">
+    افزودن دانش آموز جدید
+</a>
 {% endblock %}
 
 {% block body_Content %}
@@ -56,9 +58,8 @@
                 <td>{{ item.Education_level }}</td>
                 <td>{{ item.Debt_status }}</td>
                 <td>
-                    <a onclick="SetVal('{{ item.First_name }}', '{{ item.Last_name }}', '{{ item.International_code }}', '{{ item.Phone }}', '{{ item.Username }}', '{{ item.Password }}', '{{ item.Education_level }}', '{{ item.Debt_status }}', '{{ item.User_Id }}')"
-                            data-bs-toggle="modal" data-bs-target="#editModal"
-                            class="btn btn-sm btn-info">
+                    <a href="/search_Student/{{ item.User_Id }}"
+                    class="btn btn-sm btn-info">
                         ویرایش
                     </a>
                     <a onclick="SetDelete('/deleteStudent/{{ item.User_Id }}')"
@@ -101,93 +102,10 @@
 </div>
 {% endblock %}
 
-{% block editModal %}
-<div class="modal" id="editModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">ویرایش دانش آموز</h4>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form id="formEdit" action="editStudent" method="post">
-                    {% csrf_token %}
-                    {% for item in student %}
-                    <div class="mb-3 mt-3">
-                        {{ item.label_tag }}
-                        {{ item }}
-                        <div class="invalid-feedback">{{ field.errors }}</div>
-                    </div>
-                    {% endfor %}
-                    <button type="submit" class="btn btn-primary">ثبت اطلاعات</button>
-                </form>
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-info" data-bs-dismiss="modal">بستن فرم</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-{% endblock %}
-
-{% block addModal %}
-<div class="modal" id="addModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">افزودن دانش آموز</h4>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form action="addStudent" id="formEdit" method="post">
-                    {% csrf_token %}
-                    {% for item in student %}
-                    <div class="mb-3 mt-3">
-                        {{ item.label_tag }}
-                        {{ item }}
-                        <div class="invalid-feedback">{{ field.errors }}</div>
-                    </div>
-                    {% endfor %}
-                    <button type="submit" class="btn btn-primary">ثبت اطلاعات</button>
-                </form>
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-info" data-bs-dismiss="modal">بستن فرم</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-{% endblock %}
-
 {% block scripts %}
 <script>
     function SetDelete(value) {
         document.getElementById('deleteItem').href = value;
-    }
-
-    function SetVal(First_name, Last_name, International_code, Phone, Username, Password,
-                    Education_level, Debt_status, User_Id) {
-        document.getElementById('id_FirstName').value = First_name;
-        document.getElementById('id_LastName').value = Last_name;
-        document.getElementById('id_International_Code').value = International_code;
-        document.getElementById('id_Phone').value = Phone;
-        document.getElementById('id_Username').value = Username;
-        document.getElementById('id_Password').value = Password;
-        document.getElementById('id_Education_level').value = Education_level;
-        document.getElementById('id_Debt_status').value = Debt_status;
-        document.getElementById('id_User_Id').value = User_Id;
     }
 </script>
 {% endblock %}
