@@ -71,7 +71,7 @@ class StudentModel(forms.Form):
                                max_length=50,
                                required=True,
                                label='نام خانوادگی')
-    International_Code = forms.CharField(widget=forms.TextInput,
+    International_Code = forms.CharField(widget=forms.NumberInput,
                                          max_length=10,
                                          required=True,
                                          label='کد ملی',
@@ -122,7 +122,7 @@ class ManagerModel(forms.Form):
                                max_length=50,
                                required=True,
                                label='نام خانوادگی')
-    International_Code = forms.CharField(widget=forms.TextInput,
+    International_Code = forms.CharField(widget=forms.NumberInput,
                                          max_length=10,
                                          required=True,
                                          label='کد ملی',

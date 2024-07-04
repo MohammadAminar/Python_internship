@@ -155,6 +155,11 @@ def managers(request):
 
 
 def addManager(request):
+    manager = ManagerModel()
+    return render(request, 'User/Manager/add_manager.html', context={'manager': manager})
+
+
+def save_Manager(request):
     message = ''
 
     if request.method == 'POST':
@@ -166,7 +171,8 @@ def addManager(request):
                 First_name=manager.data['FirstName'],
                 Last_name=manager.data['LastName'],
                 Phone=manager.data['Phone'],
-                International_code=manager.data['International_Code']).save()
+                International_code=manager.data['International_Code']
+            ).save()
             message = 'Manager added'
             return HttpResponseRedirect('/managers')
         else:
@@ -177,7 +183,17 @@ def addManager(request):
     return render(request, 'User/Manager/manager.html', {'message': message})
 
 
-def EditManager(request):
+def search_Manager(request, id):
+    result = Manager.objects.filter(User_Id=id).first()
+    
+    manager = ManagerModel(initial={'User_Id': id, 'FirstName': result.First_name, 'LastName': result.Last_name,
+                                    'Phone': result.Phone, 'International_Code': result.International_code,
+                                    'Username': result.Username, 'Password': result.Password})
+
+    return render(request, 'User/Manager/edit_manager.html', context={'manager': manager})
+
+
+def edit_Manager(request):
     if request.method == 'POST':
         manager = ManagerModel(request.POST)
         id = manager.data['User_Id']

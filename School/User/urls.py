@@ -21,7 +21,9 @@ urlpatterns = [
     # Manager
     path('managers', views.managers, name='Manager'),
     path('addManager', views.addManager, name='AddManager'),
-    path('editManager', views.EditManager, name='EditManager'),
+    path('search_Manager/<int:id>', views.search_Manager, name='SearchManager'),
+    path('save_Manager', views.save_Manager, name='SaveManager'),
+    path('edit_Manager', views.edit_Manager, name='EditManager'),
     path('deleteManager/<int:id>', views.deleteManager, name='DeleteManager'),
 
     # Parent
