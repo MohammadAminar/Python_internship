@@ -29,6 +29,8 @@ urlpatterns = [
     # Parent
     path('parents', views.parents, name='Parent'),
     path('addParent', views.addParent, name='AddParent'),
-    path('editParent', views.EditParent, name='EditParent'),
+    path('search_Parent/<int:id>', views.search_Parent, name='SearchParent'),
+    path('save_Parent', views.save_Parent, name='SaveParent'),
+    path('edit_Parent', views.edit_Parent, name='EditParent'),
     path('deleteParent/<int:id>', views.deleteParent, name='DeleteParent'),
 ]

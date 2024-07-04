@@ -215,14 +215,16 @@ def deleteManager(request, id):
 
 
 def parents(request):
-    parent = ParentModel()
-
     parents = Parent.objects.all()
-
-    return render(request, 'User/Parent/parent.html', context={'parent': parent, 'parents': parents})
+    return render(request, 'User/Parent/parent.html', context={'parents': parents})
 
 
 def addParent(request):
+    parent = ParentModel()
+    return render(request, 'User/Parent/add_parent.html', context={'parent': parent})
+
+
+def save_Parent(request):
     message = ''
 
     if request.method == 'POST':
@@ -247,7 +249,17 @@ def addParent(request):
     return render(request, 'User/Parent/parent.html', {'message': message})
 
 
-def EditParent(request):
+def search_Parent(request, id):
+    result = Parent.objects.filter(User_Id=id).first()
+    
+    parent = ParentModel(initial={'User_Id': id, 'FirstName': result.First_name, 'LastName': result.Last_name,
+                                    'Phone': result.Phone, 'International_Code': result.International_code,
+                                    'Username': result.Username, 'Password': result.Password, 'Number_of_children': result.Number_of_children})
+
+    return render(request, 'User/Parent/edit_parent.html', context={'parent': parent})
+
+
+def edit_Parent(request):
     if request.method == 'POST':
         parent = ParentModel(request.POST)
         id = parent.data['User_Id']
