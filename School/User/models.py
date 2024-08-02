@@ -2,7 +2,7 @@ from django.db import models # type: ignore
 
 
 class User(models.Model):
-    Id = models.AutoField(primary_key=True)
+    user_Id = models.AutoField(primary_key=True)
     Username = models.CharField(max_length=50)
     Password = models.CharField(max_length=50)
     First_name = models.CharField(max_length=50)
@@ -15,7 +15,7 @@ class Teacher(User, models.Model):
         ('True', 'بله'),
         ('False', 'خیر'),
     ]
-    User_Id = models.AutoField(primary_key=True)
+    teacher_Id = models.AutoField(primary_key=True)
     Code_vezarat_olom = models.IntegerField()
     Work_experience = models.BooleanField(default=False, choices=CHOICES)
     Education = models.CharField(max_length=50)
@@ -27,16 +27,16 @@ class Student(User, models.Model):
         ('PAID', 'پرداخت شده'),
         ('UNPAID', 'پرداخت نشده'),
     ]
-    User_Id = models.AutoField(primary_key=True)
+    student_Id = models.AutoField(primary_key=True)
     Education_level = models.CharField(max_length=50)
     Debt_status = models.CharField(max_length=50, choices=DEBT_STATUS_CHOICES)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_query_name='Student')
 
 class Parent(User, models.Model):
-    User_Id = models.AutoField(primary_key=True)
+    parent_Id = models.AutoField(primary_key=True)
     Number_of_children = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_query_name='Parent')
 
 class Manager(User, models.Model):
-    User_Id = models.AutoField(primary_key=True)
+    manager_Id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_query_name='Manager')
